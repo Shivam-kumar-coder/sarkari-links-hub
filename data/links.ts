@@ -100,10 +100,10 @@ export const links: GovernmentLink[] = [
   },
   {
     id: "13",
-    title: "DRUG LICENCE",
-    url: "https://services.india.gov.in/service/detail/apply-for-new-drug-license-bihar",
-    category: "EDUCATION",
-    description: "Short description here.",
-    keywords: ["DRUG ", "DAWAI LICDNCE"]
+    title: "Udyam Registration Apply Online",
+    url: "https://udyamregistration.gov.in/UdyamRegistration.aspx",
+    category: "Tax & Business",
+    description: "Apply online for new Udyam (MSME) registration for micro, small and medium businesses.",
+    keywords: ["udyam registration apply","msme registration online","udyam kaise kare","new udyam registration","udyog aadhaar registration"]
   }
 ];
