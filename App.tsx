@@ -113,7 +113,7 @@ const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 20;
+  const ITEMS_PER_PAGE = 9;
 
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
