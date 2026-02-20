@@ -97,5 +97,12 @@ export const links: GovernmentLink[] = [
     category: "Employment",
     description: "Check PF balance, withdrawal status, and manage employee provident fund.",
     keywords: ["provident fund", "uan", "pf balance", "pension", "employer"]
+  },
+  {
+   id: "13",
+   title: "UP Scholarship",
+   url: "https://sarkari-links-hub.vercel.app",
+   category: "Education",
+   keywords: [" sarakar liks hub"]
   }
 ];
