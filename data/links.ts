@@ -97,5 +97,13 @@ export const links: GovernmentLink[] = [
     category: "Employment",
     description: "Check PF balance, withdrawal status, and manage employee provident fund.",
     keywords: ["provident fund", "uan", "pf balance", "pension", "employer"]
+  },
+  {
+    id: "13",
+    title: "DRUG LICENCE",
+    url: "https://services.india.gov.in/service/detail/apply-for-new-drug-license-bihar",
+    category: "EDUCATION",
+    description: "Short description here.",
+    keywords: ["DRUG ", "DAWAI LICDNCE"]
   }
 ];
