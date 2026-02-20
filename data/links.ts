@@ -105,5 +105,13 @@ export const links: GovernmentLink[] = [
     category: "Tax & Business",
     description: "Apply online for new Udyam (MSME) registration for micro, small and medium businesses.",
     keywords: ["udyam registration apply","msme registration online","udyam kaise kare","new udyam registration","udyog aadhaar registration"]
+  },
+  {
+    id: "14",
+    title: "Udyam Certificate Download / Print",
+    url: "https://udyamregistration.gov.in/PrintUdyamRegistration.aspx",
+    category: "Tax & Business",
+    description: "Download or print Udyam Registration Certificate online using Udyam number.",
+    keywords: ["udyam certificate download","msme certificate print","udyam registration certificate","udyam certificate pdf","print udyam certificate"]
   }
 ];
