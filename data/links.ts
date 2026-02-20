@@ -101,7 +101,8 @@ export const links: GovernmentLink[] = [
   {
   id: "13",
   title: "UP Scholarship",
-  url: "https://sarkari-links-hub.vercel.app",
+  url: "https://services.india.gov.in/service/detail/apply-for-new-drug-license-bihar",
   category: "Education",
-}
+  keywords: ["medicene", "medicine", "dawai balance", "dawai licence", "drug licence"]
+  }
 ];
