@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useMemo, useCallback, memo } from 'react';
-import { Search, Moon, Sun, ExternalLink, Filter, X, Share2, Globe, ArrowUp, Info } from 'lucide-react';
+import { Search, Moon, Sun, ExternalLink, Filter, X, Share2, Globe, ArrowUp, Info, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 import { links } from './data/links';
 import { GovernmentLink, Theme } from './types';
 
@@ -54,7 +55,14 @@ const LinkCard = memo(({ link, searchQuery }: { link: GovernmentLink, searchQuer
   }, [link.url]);
 
   return (
-    <article className="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 hover:shadow-xl hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-300 flex flex-col h-full ring-blue-500 focus-within:ring-2">
+    <motion.article 
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3 }}
+      className="group bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 hover:shadow-xl hover:border-blue-400 dark:hover:border-blue-600 transition-all duration-300 flex flex-col h-full ring-blue-500 focus-within:ring-2"
+    >
       <div className="flex justify-between items-start mb-4">
         <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400">
           {link.category}
@@ -95,7 +103,7 @@ const LinkCard = memo(({ link, searchQuery }: { link: GovernmentLink, searchQuer
           <ExternalLink size={16} className="ml-2" />
         </a>
       </div>
-    </article>
+    </motion.article>
   );
 });
 
@@ -104,6 +112,9 @@ const LinkCard = memo(({ link, searchQuery }: { link: GovernmentLink, searchQuer
 const App: React.FC = () => {
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
+
   const [theme, setTheme] = useState<Theme>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
@@ -130,24 +141,39 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, activeCategory]);
+
   const toggleTheme = useCallback(() => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   }, []);
 
   const filteredLinks = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return links.filter(link => {
-      const matchesCategory = activeCategory === 'All' || link.category === activeCategory;
-      if (!matchesCategory) return false;
-      
-      if (!q) return true;
-      return (
+    
+    // If searching, search globally across all links
+    if (q) {
+      return links.filter(link => 
         link.title.toLowerCase().includes(q) ||
         link.description.toLowerCase().includes(q) ||
         link.keywords.some(kw => kw.toLowerCase().includes(q))
       );
-    });
+    }
+    
+    // If not searching, apply category filter
+    return links.filter(link => 
+      activeCategory === 'All' || link.category === activeCategory
+    );
   }, [query, activeCategory]);
+
+  const paginatedLinks = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredLinks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredLinks, currentPage]);
+
+  const totalPages = Math.ceil(filteredLinks.length / ITEMS_PER_PAGE);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors selection:bg-blue-600 selection:text-white">
@@ -156,7 +182,11 @@ const App: React.FC = () => {
       <main className="flex-grow max-w-6xl mx-auto w-full px-4 py-8 sm:py-12">
         
         {/* Hero Section */}
-        <section className="text-center mb-10 sm:mb-16">
+        <motion.section 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-10 sm:mb-16"
+        >
           <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
             Sarkari Direct <span className="text-blue-600">Link Hub</span>
           </h2>
@@ -164,7 +194,7 @@ const App: React.FC = () => {
             A fast, verified directory for instant access to official Indian government portals. 
             No advertisements, no middle-men, just official links.
           </p>
-        </section>
+        </motion.section>
 
         {/* Search Experience */}
         <div className="max-w-2xl mx-auto mb-10 w-full">
@@ -193,7 +223,12 @@ const App: React.FC = () => {
         </div>
 
         {/* Category Chipset */}
-        <div className="mb-10 overflow-x-auto hide-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="mb-10 overflow-x-auto hide-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0"
+        >
           <nav className="flex space-x-2" aria-label="Filter by category">
             {categories.map((cat) => (
               <button
@@ -209,30 +244,70 @@ const App: React.FC = () => {
               </button>
             ))}
           </nav>
-        </div>
+        </motion.div>
 
         {/* Dynamic Grid */}
         <div className="min-h-[40vh]">
-          {filteredLinks.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredLinks.map((link) => (
-                <LinkCard key={link.id} link={link} searchQuery={query} />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20 animate-in fade-in zoom-in duration-300">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full mb-6">
-                <Search size={36} className="text-slate-300" />
-              </div>
-              <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Service Not Found</h4>
-              <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-xs mx-auto text-sm">
-                We couldn't find any results matching your search query. Try keywords like "PAN", "Aadhaar", or "Tax".
-              </p>
-              <button 
-                onClick={() => { setQuery(''); setActiveCategory('All'); }}
-                className="px-8 py-3 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-xl font-bold hover:opacity-90 transition-all active:scale-95"
+          <AnimatePresence mode="popLayout">
+            {paginatedLinks.length > 0 ? (
+              <motion.div 
+                layout
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                View All Services
+                {paginatedLinks.map((link) => (
+                  <LinkCard key={link.id} link={link} searchQuery={query} />
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="text-center py-20"
+              >
+                <div className="inline-flex items-center justify-center w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full mb-6">
+                  <Search size={36} className="text-slate-300" />
+                </div>
+                <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Service Not Found</h4>
+                <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-xs mx-auto text-sm">
+                  We couldn't find any results matching your search query. Try keywords like "PAN", "Aadhaar", or "Tax".
+                </p>
+                <button 
+                  onClick={() => { setQuery(''); setActiveCategory('All'); }}
+                  className="px-8 py-3 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-xl font-bold hover:opacity-90 transition-all active:scale-95"
+                >
+                  View All Services
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="mt-12 flex justify-center items-center space-x-4">
+              <button
+                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95"
+                aria-label="Previous page"
+              >
+                <ChevronLeft size={20} className="text-slate-600 dark:text-slate-400" />
+              </button>
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-bold text-slate-900 dark:text-white">
+                  {currentPage}
+                </span>
+                <span className="text-sm font-medium text-slate-400">
+                  / {totalPages}
+                </span>
+              </div>
+              <button
+                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 transition-all active:scale-95"
+                aria-label="Next page"
+              >
+                <ChevronRight size={20} className="text-slate-600 dark:text-slate-400" />
               </button>
             </div>
           )}
