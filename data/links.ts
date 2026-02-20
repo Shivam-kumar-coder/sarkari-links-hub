@@ -113,5 +113,13 @@ export const links: GovernmentLink[] = [
     category: "Tax & Business",
     description: "Download or print Udyam Registration Certificate online using Udyam number.",
     keywords: ["udyam certificate download","msme certificate print","udyam registration certificate","udyam certificate pdf","print udyam certificate"]
+  },
+  {
+    id: "22",
+    title: "Udyam Registration Verify",
+    url: "https://udyamregistration.gov.in/VerifyUdyamRegistration.aspx",
+    category: "Tax & Business",
+    description: "Verify authenticity of Udyam Registration using Udyam number.",
+    keywords: ["udyam verify","msme verify","udyam registration check","udyam number verify","msme certificate verify"]
   }
 ];
