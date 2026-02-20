@@ -99,10 +99,10 @@ export const links: GovernmentLink[] = [
     keywords: ["provident fund", "uan", "pf balance", "pension", "employer"]
   },
   {
-   id: "13",
-   title: "UP Scholarship",
-   url: "https://sarkari-links-hub.vercel.app",
-   category: "Education",
-   keywords: [" sarakar liks hub"]
+    id: "13",
+    title: "UP Scholarship",
+    url: "https://sarkari-links-hub.vercel.app",
+    category: "Education",
+    keywords: [" sarakar liks hub"]
   }
 ];
