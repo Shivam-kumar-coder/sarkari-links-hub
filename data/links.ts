@@ -123,11 +123,19 @@ export const links: GovernmentLink[] = [
     keywords: ["udyam verify","msme verify","udyam registration check","udyam number verify","msme certificate verify"]
   },
   {
-    id: "23",
+    id: "16",
     title: "Udyam Registration Update / Edit",
     url: "https://udyamregistration.gov.in/UdyamRegistration.aspx",
     category: "Tax & Business",
     description: "Update or edit details in existing Udyam Registration.",
     keywords: ["udyam update","edit udyam registration","msme update details","change mobile in udyam","update udyam certificate"]
+  },
+  {
+    id: "17",
+    title: "Forgot Udyam Registration Number",
+    url: "https://udyamregistration.gov.in/PrintUdyamRegistration.aspx",
+    category: "Tax & Business",
+    description: "Recover or find lost Udyam Registration number online.",
+    keywords: ["forgot udyam number","udyam number kaise pata kare","msme registration number find","lost udyam number","udyam number search"]
   }
 ];
