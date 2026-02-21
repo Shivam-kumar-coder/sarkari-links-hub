@@ -144,6 +144,6 @@ export const links: GovernmentLink[] = [
     url: "https://xln.bihar.gov.in/ST_Login.aspx",
     category: "Licenses & Permits",
     description: "Login and apply for Bihar drug licence online via state licensing portal.",
-    keywords: ["bihar drug licence", "drug license online", "xln bihar gov", "drug licence login"]
+    keywords: ["bihar drug licence", " check drug license online", "xln bihar gov", "drug licence login"]
   }
 ];
