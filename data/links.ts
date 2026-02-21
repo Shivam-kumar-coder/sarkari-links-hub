@@ -137,5 +137,13 @@ export const links: GovernmentLink[] = [
     category: "Tax & Business",
     description: "Recover or find lost Udyam Registration number online.",
     keywords: ["forgot udyam number","udyam number kaise pata kare","msme registration number find","lost udyam number","udyam number search"]
+  },
+  {
+    id: "18",
+    title: "Bihar Drug Licence Login / Apply",
+    url: "https://xln.bihar.gov.in/ST_Login.aspx",
+    category: "Licenses & Permits",
+    description: "Login and apply for Bihar drug licence online via state licensing portal.",
+    keywords: ["bihar drug licence", "drug license online", "xln bihar gov", "drug licence login"]
   }
 ];
